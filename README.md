@@ -1,2 +1,2 @@
-# biker
-Biker is a side scrolling game
+# bike
+Bike is a side scrolling game
