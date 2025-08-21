@@ -1,6 +1,11 @@
 <h1><a href="https://bacionejs.github.com/bike/" style="text-decoration: none; color: inherit;">Play</a></h1>
 
-[![Demo – Click to Play](README.jpg)](https://bacionejs.github.io/bike/)
+<a href="//bacionejs.github.io/editor/bike" target="_blank">
+    <img src="README.jpg" width="33%" />
+</a>
+
+
+
 
 Bike game is a side-scrolling stunt cycling game where you jump, flip, and avoid obstacles to score points.
 
