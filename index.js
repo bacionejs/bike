@@ -1,6 +1,5 @@
 onload=()=>{
 document.title="Bike";
-//---Setup---
 const style=document.createElement("style");
 style.textContent="*{margin:0;padding:0;position:fixed;touch-action:none;user-select:none;background:black;}";
 document.head.appendChild(style);
@@ -16,7 +15,7 @@ const GAME_H=1600;
 canvas.width=GAME_W;
 canvas.height=GAME_H;
 
-//Scaling
+//scaling
 let scale=1,offsetX=0,offsetY=0;
 const resize=()=>{
 const ratio=9/16;
@@ -34,25 +33,35 @@ canvas.style.width=GAME_W*scale+"px";
 canvas.style.height=GAME_H*scale+"px";
 canvas.style.left=offsetX+"px";
 canvas.style.top=offsetY+"px";
-canvas.style.position="absolute";
 };
 onresize=resize;
 resize();
 
 let w=GAME_W,h=GAME_H;
 
-//---Ground(slope)---
+// --- Background Music ---
+let audioContext = new AudioContext();
+pl_synth_wasm_init(audioContext, (synth) => {
+// let synth=pl_synth_init(audioContext);
+const buffer = synth.song(song);
+const source = audioContext.createBufferSource();
+source.buffer = buffer;
+source.loop = true;
+source.connect(audioContext.destination);
+source.start();
+});
+
+//---ground(slope)---
 let offset=0;
 const amplitude=40;
 const freq=1/100;
 const linearSlope=0.5;
-const baseY=()=>h/2;
-const slope=(x)=>Math.sin((x+offset)*freq)*amplitude+baseY()+x*linearSlope;
+const slope=(x)=>Math.sin((x+offset)*freq)*amplitude+(h/2)+x*linearSlope;
 const slopeDerivative=(x)=>amplitude*freq*Math.cos((x+offset)*freq)+linearSlope;
 
-//---Mountains---
+//---mountains---
 const mountainScale=w*2;
-const mountainData=[ [-20,0,-16,-6,-13,-2,-6,-18,-2,-8,2,-16,6,-8,12,-20,20,0,-20,0,-20,h,20,h,20,0 ]];
+const mountainData=[[-20,0,-16,-6,-13,-2,-6,-18,-2,-8,2,-16,6,-8,12,-20,20,0,-20,0,-20,h,20,h,20,0]];
 const mountainShape=makeShape(mountainData,40,false);
 let mountainOffset=0;
 function drawMountains(dt){
@@ -69,17 +78,17 @@ drawChunk(w/2-mountainOffset);
 drawChunk(w/2-mountainOffset+mountainScale);
 }
 
-//---Cats---
+//---cats---
 const catHead=makeShape([[0,-6,3,-6,6,-10,10,-2,10,2,7,7,4,9,0,9]]);
 const cats=[];
 const CAT_SIZE=20,CAT_SPEED=4;
-for(let i=0;i<3;i++){ const x=400+i*600; cats.push({x,y:slope(x)-CAT_SIZE,size:CAT_SIZE,rotation:0,active:true}); }
+for(let i=0;i<3;i++){const x=400+i*600;cats.push({x,y:slope(x)-CAT_SIZE,size:CAT_SIZE,rotation:0,active:true});}
 
-//---Crashstate---
+//---crash---
 let crashActive=false;
 let crashX=0,crashY=0;
 
-//---Player(cycle)---
+//---player(cycle)---
 const cycle={x:100,y:0,size:40,vy:0,onGround:true};
 const playerEmoji=String.fromCodePoint(0x1F6B4,0x200D,0x2642,0xFE0F);
 let holding=false;
@@ -92,13 +101,13 @@ let flipCharge=0,flipRotation=0,flipping=false;
 
 
 
-//---GameLoop---
+//---loop---
 let lastTime=performance.now();
 function loop(now){
 const dt=(now-lastTime)/(1000/60);
 lastTime=now;
 offset+=4*dt;
-ctx.fillStyle="skyblue"; ctx.fillRect(0,0,w,h);
+ctx.fillStyle="skyblue";ctx.fillRect(0,0,w,h);
 drawMountains(dt);
 drawGround();
 updateCycle(dt);
@@ -145,7 +154,7 @@ for(const c of cats){
   }
   c.y=slope(c.x)-c.size;
   drawCat(c,dt);
-  //Collision
+  //collision
   const dx=cycle.x-c.x;
   const dy=(cycle.y+cycle.size/2)-(c.y+c.size/2);
   const dist=Math.sqrt(dx*dx+dy*dy);
@@ -244,6 +253,7 @@ return p;
 }
 
 addEventListener("pointerdown",()=>{
+    if (audioContext.state === 'suspended') audioContext.resume();
 holding=true;
 flipCharge++;
 if(cycle.onGround){
