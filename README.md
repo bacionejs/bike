@@ -16,3 +16,6 @@ Bike game is a side-scrolling stunt cycling game where you jump, flip, and avoid
   - Passing a cat successfully increases your score.  
   - Hitting a cat or failing to ace the landing decreases your score.
 
+## Credits
+- Music Player: [pl_synth](https://github.com/phoboslab/pl_synth)
+- Song: Beatnic by mBitsnBites
