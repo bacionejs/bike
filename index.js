@@ -13,7 +13,7 @@ const ctx=canvas.getContext("2d");
 
 
 
-canvas.addEventListener("contextmenu", function(e) {
+document.addEventListener("contextmenu", function(e) {
     e.preventDefault(); // Prevents the menu from showing
 });
 
