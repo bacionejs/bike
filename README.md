@@ -14,7 +14,7 @@ Bike game is a side-scrolling stunt cycling game where you jump, flip, and avoid
 - **Jump:** Long-press
 - **Scoring:**  
   - Passing a cat successfully increases your score.  
-  - Hitting a cat or failing to ace the landing decreases your score.
+  - Hitting a cat or **failing to ace the landing** decreases your score.
 
 - Spoiler: You must land within ±45° degrees of the tangent of the mountain slope...on your wheels
 
