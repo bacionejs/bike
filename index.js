@@ -7,19 +7,7 @@ document.head.appendChild(style);
 const canvas=document.createElement("canvas");
 document.body.appendChild(canvas);
 const ctx=canvas.getContext("2d");
-
-
-
-
-
-
-document.addEventListener("contextmenu", function(e) {
-    e.preventDefault(); // Prevents the menu from showing
-});
-
-
-
-
+document.addEventListener("contextmenu", function(e) { e.preventDefault(); });
 
 let score=0;
 
@@ -266,7 +254,7 @@ return p;
 }
 
 addEventListener("pointerdown",()=>{
-    if (audioContext.state === 'suspended') audioContext.resume();
+if (audioContext.state === 'suspended') audioContext.resume();
 holding=true;
 flipCharge++;
 if(cycle.onGround){
